@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "969650567398",
+    "firebase_url": "https://project-shire-silent.firebaseio.com",
+    "project_id": "project-shire-silent",
+    "storage_bucket": "project-shire-silent.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:969650567398:android:36253252edbed7f4",
+        "android_client_info": {
+          "package_name": "com.hiruu.shire"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "969650567398-8ur872p4u01e3a9u8m0vjj3jujpf2vd2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hiruu.shire",
+            "certificate_hash": "c9c4c0f2fd2584fb094e975f6b649a397027506c"
+          }
+        },
+        {
+          "client_id": "969650567398-qgcbcsp4jetkn7fcf2d8u8jtqcg07i3j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRSSVgn1eyXp4Mf0O3to01p9iia2Eb5NE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "969650567398-qgcbcsp4jetkn7fcf2d8u8jtqcg07i3j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
