@@ -19,48 +19,38 @@ class LoginScreen extends StatelessWidget {
           title: Text("Shire"),
           automaticallyImplyLeading: false,
         ),
-        body: Builder(
-            builder: (context) => Stack(
-                  fit: StackFit.expand,
-                  children: <Widget>[
-                    Image.asset(
-                      ShireImages.BACKGROUND,
-                      fit: BoxFit.cover,
-                      color: Colors.black45,
-                      colorBlendMode: BlendMode.darken,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+        body: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            Image.asset(
+              ShireImages.BACKGROUND,
+              fit: BoxFit.cover,
+              color: Colors.black45,
+              colorBlendMode: BlendMode.darken,
+            ),
+            Container(
+              alignment: Alignment.bottomCenter,
+              padding: EdgeInsets.only(bottom: 80.0),
+              child: Wrap(
+                children: <Widget>[
+                  RaisedButton(
+                    onPressed: () => _trySignIn(context),
+                    child: Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      direction: Axis.horizontal,
                       children: <Widget>[
-                        RaisedButton(
-                          color: Colors.black45,
-                          onPressed: () => _trySignIn(context),
-                          elevation: 12.0,
-                          child: Container(
-                              padding: EdgeInsets.all(5.0),
-                              width: 180.0,
-                              child: Wrap(children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Image.asset(
-                                      ShireIcons.GOOGLE_ICON,
-                                    ),
-                                    Text(
-                                      "Sign in with Google",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 20.0,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    )
-                                  ],
-                                ),
-                              ])),
-                        )
+                        Image.asset(
+                          ShireIcons.GOOGLE_ICON,
+                          height: 30.0,
+                        ),
+                        Text("Sign With Google")
                       ],
-                    )
-                  ],
-                )));
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ));
   }
 }
