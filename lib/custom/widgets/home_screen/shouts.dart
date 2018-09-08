@@ -126,6 +126,10 @@ class ShoutCard extends StatelessWidget {
 
   ShoutCard({@required this.user, @required this.message});
 
+  void _viewProfile(User user) {
+    print(user.displayName);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -141,17 +145,30 @@ class ShoutCard extends StatelessWidget {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(left: 5.0, top: 3.0),
-                child: CircleAvatar(
-                  backgroundImage: NetworkImage(user.photoUrl == null
-                      ? "https://www.shareicon.net/download/512x512/2016/09/15/829473_man_512x512.png"
-                      : user.photoUrl),
+                child: InkWell(
+                  onTap: () => _viewProfile(user),
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(user.photoUrl == null
+                        ? "https://www.shareicon.net/download/512x512/2016/09/15/829473_man_512x512.png"
+                        : user.photoUrl),
+                  ),
                 ),
               ),
               Expanded(
                 flex: 1,
                 child: Container(
-                    margin: EdgeInsets.only(left: 10.0),
-                    child: Text(user.displayName)),
+                  margin: EdgeInsets.only(left: 10.0),
+                  child: InkWell(
+                    child: Text(
+                      user.displayName,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onTap: () => _viewProfile(user),
+                  ),
+                ),
               ),
               PopupMenuButton<String>(
                 onSelected: null,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shire/custom/widgets/custom_widgets.dart';
+import 'package:shire/custom/widgets/home_screen/menu.dart';
+import 'package:shire/custom/widgets/home_screen/staff_message.dart';
 import 'package:shire/utils/auth.dart';
-import 'package:shire/custom/widgets/shouts.dart';
+import 'package:shire/custom/widgets/home_screen/shouts.dart';
+import 'package:shire/meta/current_user.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -9,7 +11,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
+
   Widget build(BuildContext context) {
+    try {
+      getCurrentUser();
+    } catch (e) {}
     return Scaffold(
       appBar: AppBar(
         title: Text("Shire"),
@@ -19,7 +25,11 @@ class HomeScreenState extends State<HomeScreen> {
               Icons.remove_red_eye,
               color: Colors.white,
             ),
-            onPressed: null,
+            onPressed: (){
+
+
+
+            },
           ),
           IconButton(
             icon: Icon(
@@ -47,6 +57,7 @@ class HomeScreenState extends State<HomeScreen> {
 
           //shout box
           ShoutBox(),
+          HomeScreenMenu(),
         ],
       )),
     );
