@@ -12,7 +12,8 @@ class StaffMessageBox extends StatelessWidget {
             color: Color.fromARGB(50, 255, 194, 0),
             borderRadius: BorderRadius.circular(5.0),
             border: Border.all(color: Colors.amber, style: BorderStyle.solid)),
-        child: Center(
+        child: Container(
+          alignment: Alignment.center,
           child: StreamBuilder<DocumentSnapshot>(
             stream: Firestore.instance.document("/system/app_meta").snapshots(),
             builder: (BuildContext context,

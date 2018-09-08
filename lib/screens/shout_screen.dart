@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:shire/meta/current_user.dart';
 import 'package:shire/databases/shouts.dart';
+import 'package:shire/meta/current_user.dart';
 
 class ShoutScreen extends StatelessWidget {
   final shoutTextController = TextEditingController();
 
-  void _postShout(String shoutText){
-    insertShout(shoutText, getCurrentUser().uid);
-    shoutTextController.clear();
-  }
-
   @override
   Widget build(BuildContext context) {
     try {
-      getCurrentUser().uid;
+      getCurrentUser();
     } catch (e) {}
     return Scaffold(
       appBar: AppBar(
@@ -25,11 +20,15 @@ class ShoutScreen extends StatelessWidget {
           maxLength: 255,
           controller: shoutTextController,
           onSubmitted: (shoutText) {
-            _postShout(shoutText);
+            insertShout(shoutTextController.text);
+            shoutTextController.clear();
           },
         ),
         RaisedButton(
-          onPressed: () => _postShout(shoutTextController.text),
+          onPressed: () {
+            insertShout(shoutTextController.text);
+            shoutTextController.clear();
+          },
         )
       ]),
     );

@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:shire/models/user.dart';
 
 User _user;
 
-User getCurrentUser() {
+Future<User> getCurrentUser() async {
   if (_user != null) return _user;
+
   FirebaseAuth.instance.onAuthStateChanged.listen((FirebaseUser user) {
     if (user != null) {
       _user = User(
