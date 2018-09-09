@@ -32,6 +32,8 @@ flutter:
   assets:
     - assets/images/background.jpg
     - assets/icons/google_icon.png
+    - assets/icons/chat.png
+    - assets/icons/inbox.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
