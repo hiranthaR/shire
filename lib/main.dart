@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shire/screens/chatroom_screen.dart';
 import 'package:shire/screens/home.dart';
 import 'package:shire/screens/loginscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,6 +13,7 @@ class App extends StatelessWidget {
     "/login": (BuildContext context) => LoginScreen(),
     "/home": (BuildContext context) => HomeScreen(),
     "/post_shout": (BuildContext context) => ShoutScreen(),
+    "/chatrooms": (BuildContext context) => ChatRoomsScreen(),
   };
 
 
