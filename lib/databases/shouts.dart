@@ -1,7 +1,5 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shire/meta/current_user.dart';
-
 
 final SHOUTS = "shouts";
 
@@ -10,7 +8,6 @@ final _firestoreShoutsRef = _firestoreDB.collection(SHOUTS);
 final _firestoreShoutsMetaRef = _firestoreDB.document("/system/shout_meta");
 
 void insertShout(String shoutText) async {
-
   var user = await getCurrentUser();
 
   _firestoreDB.runTransaction((trans) async {
@@ -29,7 +26,5 @@ void insertShout(String shoutText) async {
 }
 
 void _postShout(String shoutText, int id, String uid) {
-  _firestoreShoutsRef
-      .document(id.toString())
-      .setData({"uid": uid, "shout": shoutText, "id": id});
+  _firestoreShoutsRef.add({"uid": uid, "shout": shoutText, "id": id,});
 }

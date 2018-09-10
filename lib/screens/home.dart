@@ -11,7 +11,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
-
   Widget build(BuildContext context) {
     try {
       getCurrentUser();
@@ -25,11 +24,7 @@ class HomeScreenState extends State<HomeScreen> {
               Icons.remove_red_eye,
               color: Colors.white,
             ),
-            onPressed: (){
-
-
-
-            },
+            onPressed: () {},
           ),
           IconButton(
             icon: Icon(
@@ -53,7 +48,7 @@ class HomeScreenState extends State<HomeScreen> {
           child: Column(
         children: <Widget>[
           //staff message box
-          StaffMessageBox(),
+          StaffMessageBox(path: "/system/app_meta", keyWord: 'staff_message'),
 
           //shout box
           ShoutBox(),

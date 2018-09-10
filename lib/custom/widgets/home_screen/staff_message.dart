@@ -3,6 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
 class StaffMessageBox extends StatelessWidget {
+
+  final String path;
+  final String keyWord;
+
+  StaffMessageBox({@required this.path,@required this.keyWord});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,11 +21,11 @@ class StaffMessageBox extends StatelessWidget {
         child: Container(
           alignment: Alignment.center,
           child: StreamBuilder<DocumentSnapshot>(
-            stream: Firestore.instance.document("/system/app_meta").snapshots(),
+            stream: Firestore.instance.document(path).snapshots(),
             builder: (BuildContext context,
                 AsyncSnapshot<DocumentSnapshot> snapshots) {
               if (!snapshots.hasData) return CircularProgressIndicator();
-              return Html(data: snapshots.data.data['staff_message']);
+              return Html(data: snapshots.data.data[keyWord]);
             },
           ),
         ));
