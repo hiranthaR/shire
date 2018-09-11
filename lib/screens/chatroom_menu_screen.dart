@@ -26,7 +26,8 @@ class ChatRoomsScreen extends StatelessWidget {
             ),
             child: Column(
               children: <Widget>[
-                ChatRoomRow(chatRoom: ChatRoom(roomName: "SL Chat"),),
+                ChatRoomRow(chatRoom: ChatRoom(roomName: "Public Chat Room"),),
+                ChatRoomRow(chatRoom: ChatRoom(roomName: "SL Chat Roombl bl "),),
               ],
             ),
           )
