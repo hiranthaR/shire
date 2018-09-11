@@ -9,6 +9,66 @@ class ChatRoomScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            ListTile(title: Text("Who is inside",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20.0),),trailing: Icon(Icons.people),),
+            Divider(),
+            ListTile(
+              title: Row(
+                children: <Widget>[
+                  CircleAvatar(
+                    child: Text("M"),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5.0),
+                    child: Text("Hirantha Rathnayake"),
+                  )
+                ],
+              ),
+            ),
+            ListTile(
+              title: Row(
+                children: <Widget>[
+                  CircleAvatar(
+                    child: Text("M"),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5.0),
+                    child: Text("Hirantha Rathnayake"),
+                  )
+                ],
+              ),
+            ),
+            ListTile(
+              title: Row(
+                children: <Widget>[
+                  CircleAvatar(
+                    child: Text("M"),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5.0),
+                    child: Text("Hirantha Rathnayake"),
+                  )
+                ],
+              ),
+            ),
+            ListTile(
+              title: Row(
+                children: <Widget>[
+                  CircleAvatar(
+                    child: Text("M"),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5.0),
+                    child: Text("Hirantha Rathnayake"),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
       appBar: AppBar(
         title: Text(chatRoom.roomName),
       ),
@@ -18,8 +78,10 @@ class ChatRoomScreen extends StatelessWidget {
           children: <Widget>[
             Expanded(
               //chat body
-              child: Container(color: Colors.yellow,
-              margin: EdgeInsets.only(top: 5.0,left: 5.0,right: 5.0),),
+              child: Container(
+                color: Colors.yellow,
+                margin: EdgeInsets.only(top: 5.0, left: 5.0, right: 5.0),
+              ),
             ),
             Container(
               padding: EdgeInsets.all(5.0),

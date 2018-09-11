@@ -18,7 +18,7 @@ class ShoutBox extends StatelessWidget {
       child: StreamBuilder<QuerySnapshot>(
           stream: Firestore.instance
               .collection("shouts")
-              .orderBy("id", descending: true)
+              .orderBy("timestamp", descending: true)
               .limit(2)
               .snapshots(),
           builder:
