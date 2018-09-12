@@ -90,7 +90,9 @@ class ShoutBox extends StatelessWidget {
                             ),
                           ),
                           MaterialButton(
-                            onPressed: null,
+                            onPressed: (){
+                              Navigator.pushNamed(context, "/shout_history");
+                            },
                             child: Row(
                               children: <Widget>[
                                 Icon(Icons.history),

@@ -3,6 +3,7 @@ import 'package:shire/screens/chatroom_menu_screen.dart';
 import 'package:shire/screens/home.dart';
 import 'package:shire/screens/loginscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shire/screens/shout_history_screen.dart';
 import 'package:shire/screens/shout_screen.dart';
 import 'meta/current_user.dart';
 
@@ -14,6 +15,7 @@ class App extends StatelessWidget {
     "/home": (BuildContext context) => HomeScreen(),
     "/post_shout": (BuildContext context) => ShoutScreen(),
     "/chatrooms": (BuildContext context) => ChatRoomsScreen(),
+    "/shout_history": (BuildContext context) => ShoutHistoryScreen(),
   };
 
 
