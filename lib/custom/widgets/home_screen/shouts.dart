@@ -3,8 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:shire/models/user.dart';
 import 'package:shire/databases/users.dart';
+import 'package:shire/meta/current_user.dart';
+import 'package:date_format/date_format.dart';
 
-class ShoutBox extends StatelessWidget {
+class ShoutBox extends StatefulWidget {
+  @override
+  _ShoutBoxState createState() => _ShoutBoxState();
+}
+
+class _ShoutBoxState extends State<ShoutBox> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -41,8 +48,9 @@ class ShoutBox extends StatelessWidget {
                             AsyncSnapshot<User> userSnap) {
                           return userSnap.hasData
                               ? ShoutCard(
-                                  user: userSnap.data,
-                                  message: Html(data: docs[0].data["shout"]))
+                                  poster: userSnap.data,
+                                  doc: docs[0],
+                                )
                               : Padding(
                                   padding: EdgeInsets.all(5.0),
                                   child: CircularProgressIndicator());
@@ -58,8 +66,9 @@ class ShoutBox extends StatelessWidget {
                             AsyncSnapshot<User> userSnap) {
                           return userSnap.hasData
                               ? ShoutCard(
-                                  user: userSnap.data,
-                                  message: Html(data: docs[1].data["shout"]))
+                                  poster: userSnap.data,
+                                  doc: docs[1],
+                                )
                               : Padding(
                                   padding: EdgeInsets.all(5.0),
                                   child: CircularProgressIndicator());
@@ -90,7 +99,7 @@ class ShoutBox extends StatelessWidget {
                             ),
                           ),
                           MaterialButton(
-                            onPressed: (){
+                            onPressed: () {
                               Navigator.pushNamed(context, "/shout_history");
                             },
                             child: Row(
@@ -120,16 +129,42 @@ class ShoutBox extends StatelessWidget {
   }
 }
 
-class ShoutCard extends StatelessWidget {
-  final User user;
-  final Html message;
+class ShoutCard extends StatefulWidget {
+  final User poster;
+  final DocumentSnapshot doc;
+
+  ShoutCard({@required this.poster, @required this.doc});
+
+  @override
+  _ShoutCardState createState() => _ShoutCardState();
+}
+
+class _ShoutCardState extends State<ShoutCard> {
+  CollectionReference likesRef;
+  User currentUser;
+  bool liked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    likesRef =
+        Firestore.instance.collection("/shouts/${widget.doc.documentID}/likes");
+  }
 
   final List<String> menuOptions = const <String>["Delete", "Report to Staff"];
 
-  ShoutCard({@required this.user, @required this.message});
-
   void _viewProfile(User user) {
     print(user.displayName);
+  }
+
+  void _onLike() async {
+    currentUser = await getCurrentUser();
+    likesRef.document(currentUser.uid).setData({});
+  }
+
+  void _onUnlike() async {
+    currentUser = await getCurrentUser();
+    likesRef.document(currentUser.uid).delete().catchError((e) {});
   }
 
   @override
@@ -145,14 +180,15 @@ class ShoutCard extends StatelessWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
+              //avatar and name
               Container(
                 margin: EdgeInsets.only(left: 5.0, top: 3.0),
                 child: InkWell(
-                  onTap: () => _viewProfile(user),
+                  onTap: () => _viewProfile(widget.poster),
                   child: CircleAvatar(
-                    backgroundImage: NetworkImage(user.photoUrl == null
+                    backgroundImage: NetworkImage(widget.poster.photoUrl == null
                         ? "https://www.shareicon.net/download/512x512/2016/09/15/829473_man_512x512.png"
-                        : user.photoUrl),
+                        : widget.poster.photoUrl),
                   ),
                 ),
               ),
@@ -162,13 +198,13 @@ class ShoutCard extends StatelessWidget {
                   margin: EdgeInsets.only(left: 10.0),
                   child: InkWell(
                     child: Text(
-                      user.displayName,
+                      widget.poster.displayName,
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    onTap: () => _viewProfile(user),
+                    onTap: () => _viewProfile(widget.poster),
                   ),
                 ),
               ),
@@ -191,7 +227,17 @@ class ShoutCard extends StatelessWidget {
             color: Colors.black26,
             margin: EdgeInsets.only(bottom: 20.0, top: 5.0),
           ),
-          message,
+
+          //date time
+          Container(
+            alignment: Alignment.topRight,
+            child: Text(formatDate((widget.doc.data["timestamp"] as DateTime), [yyyy,"-",mm,"-",dd," ",HH,":",nn," ",am])),
+          ),
+
+          //shout text
+          Html(
+            data: widget.doc.data["shout"],
+          ),
           Container(
             margin: EdgeInsets.only(top: 5.0),
             decoration: BoxDecoration(
@@ -206,11 +252,88 @@ class ShoutCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        IconButton(icon: Icon(Icons.thumb_up), onPressed: null),
-                        Text("Like")
-                      ],
+                    FutureBuilder<User>(
+                      future: getCurrentUser(),
+                      builder:
+                          (BuildContext context, AsyncSnapshot<User> userSnap) {
+                        if (!userSnap.hasData)
+                          return Row(
+                            children: <Widget>[
+                              Icon(Icons.thumb_up),
+                              Text("Like")
+                            ],
+                          );
+                        return StreamBuilder<QuerySnapshot>(
+                          stream: Firestore.instance
+                              .collection(
+                                  "/shouts/${widget.doc.documentID}/likes")
+                              .snapshots(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<QuerySnapshot> snapshots) {
+                            if (!snapshots.hasData)
+                              return GestureDetector(
+                                onTap: liked ? _onUnlike : _onLike,
+                                child: Row(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 5.0),
+                                      child: Icon(Icons.thumb_up),
+                                    ),
+                                    Text("Like")
+                                  ],
+                                ),
+                              );
+                            if (snapshots.data.documents
+                                .map((doc) {
+                                  return doc.documentID;
+                                })
+                                .toList()
+                                .contains(userSnap.data.uid)) {
+                              liked = true;
+                              return GestureDetector(
+                                onTap: liked ? _onUnlike : _onLike,
+                                child: Row(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 5.0),
+                                      child: Icon(
+                                        Icons.thumb_up,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Unlike[${snapshots.data.documents.length}]",
+                                      style: TextStyle(
+                                        color: Colors.blue,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              );
+                            } else {
+                              liked = false;
+                              return GestureDetector(
+                                onTap: liked ? _onUnlike : _onLike,
+                                child: Row(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 5.0),
+                                      child: Icon(
+                                        Icons.thumb_up,
+                                      ),
+                                    ),
+                                    Text(
+                                        "Like[${snapshots.data.documents.length}]")
+                                  ],
+                                ),
+                              );
+                            }
+                          },
+                        );
+                      },
                     ),
                     Row(
                       children: <Widget>[

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:shire/custom/widgets/home_screen/shouts.dart';
 import 'package:shire/databases/users.dart';
 import 'package:shire/models/user.dart';
@@ -20,8 +19,8 @@ class _ShoutHistoryScreenState extends State<ShoutHistoryScreen> {
             (BuildContext context, AsyncSnapshot<User> userSnap) {
           return userSnap.hasData
               ? ShoutCard(
-              user: userSnap.data,
-              message: Html(data: doc.data["shout"]))
+              poster: userSnap.data,
+              doc: doc,)
               : Padding(
               padding: EdgeInsets.all(5.0),
               child: CircularProgressIndicator());
